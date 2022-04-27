@@ -1,6 +1,13 @@
 {
+    "projectId": "omitted",
+    "dataKey": "omitted",
+    "version": 11,
+    "created": "",
+    "updated": "",
+    "defaultLocale": "en-us",
+    "locales": ["en-us"],
     "apiVersion": "2",
-    "version": "3.17.0",
+    "schemaVersion": "3.17.0",
     "services": {
       "shopify-storefront": {
         "id": "shopify-storefront",
