@@ -1,7 +1,6 @@
 {
     "apiVersion": "2",
-    "schemaVersion": "3.17.0",
-    "projectId":"omitted",
+    "version": "3.17.0",
     "services": {
       "shopify-storefront": {
         "id": "shopify-storefront",
