@@ -1,0 +1,266 @@
+{
+    "apiVersion": "2",
+    "schemaVersion": "3.17.0",
+    "services": {
+      "shopify-storefront": {
+        "id": "shopify-storefront",
+        "provider": "generic",
+        "title": "Shopify Storefront",
+        "namespace": "ShopifyStorefront",
+        "serviceType": "graphql",
+        "authenticationType": "bearer"
+      }
+    },
+    "queries": {
+      "listIndexedShopifyStorefrontProducts": {
+        "shape": "PaginatedList<ShopifyStorefront_Product>",
+        "resolver": {
+          "shapeName": "ShopifyStorefront_Product",
+          "name": "takeshape:queryApiIndex",
+          "service": "takeshape:local",
+          "options": {"indexedShape": "ShopifyStorefront_Product"}
+        },
+        "description": "Fetch Shopify Storefront products from the API Index."
+      },
+      "listIndexedShopifyStorefrontCollections": {
+        "shape": "PaginatedList<ShopifyStorefront_Collection>",
+        "resolver": {
+          "shapeName": "ShopifyStorefront_Collection",
+          "name": "takeshape:queryApiIndex",
+          "service": "takeshape:local",
+          "options": {"indexedShape": "ShopifyStorefront_Collection"}
+        },
+        "description": "Fetch Shopify Storefront collections from the API Index."
+      },
+      "ShopifyStorefront_products": {
+        "resolver": {
+          "name": "graphql:query",
+          "service": "shopify-storefront",
+          "fieldName": "products"
+        },
+        "args": {
+          "type": "object",
+          "properties": {
+            "first": {
+              "type": "integer",
+              "description": "Returns up to the first `n` elements from the list."
+            },
+            "after": {
+              "type": "string",
+              "description": "Returns the elements that come after the specified cursor."
+            },
+            "last": {
+              "type": "integer",
+              "description": "Returns up to the last `n` elements from the list."
+            },
+            "before": {
+              "type": "string",
+              "description": "Returns the elements that come before the specified cursor."
+            },
+            "reverse": {
+              "type": "boolean",
+              "description": "Reverse the order of the underlying list.",
+              "default": false
+            },
+            "sortKey": {
+              "@ref": "shopify-storefront:ProductSortKeys",
+              "description": "Sort the underlying list by the given key.",
+              "default": "ID"
+            },
+            "query": {
+              "type": "string",
+              "description": "Supported filter parameters:\n - `available_for_sale`\n - `created_at`\n - `product_type`\n - `tag`\n - `tag_not`\n - `title`\n - `updated_at`\n - `variants.price`\n - `vendor`\n\nSee the detailed [search syntax](https://shopify.dev/api/usage/search-syntax)\nfor more information about using filters."
+            }
+          }
+        },
+        "shape": "ShopifyStorefront_ProductConnection"
+      },
+      "ShopifyStorefront_product": {
+        "resolver": {
+          "name": "graphql:query",
+          "service": "shopify-storefront",
+          "fieldName": "product"
+        },
+        "args": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "@tag": "id",
+              "description": "The ID of the `Product`."
+            },
+            "handle": {
+              "type": "string",
+              "description": "The handle of the `Product`."
+            }
+          }
+        },
+        "shape": "ShopifyStorefront_Product"
+      },
+      "ShopifyStorefront_collections": {
+        "resolver": {
+          "name": "graphql:query",
+          "service": "shopify-storefront",
+          "fieldName": "collections"
+        },
+        "args": {
+          "type": "object",
+          "properties": {
+            "first": {
+              "type": "integer",
+              "description": "Returns up to the first `n` elements from the list."
+            },
+            "after": {
+              "type": "string",
+              "description": "Returns the elements that come after the specified cursor."
+            },
+            "last": {
+              "type": "integer",
+              "description": "Returns up to the last `n` elements from the list."
+            },
+            "before": {
+              "type": "string",
+              "description": "Returns the elements that come before the specified cursor."
+            },
+            "reverse": {
+              "type": "boolean",
+              "description": "Reverse the order of the underlying list.",
+              "default": false
+            },
+            "sortKey": {
+              "@ref": "shopify-storefront:CollectionSortKeys",
+              "description": "Sort the underlying list by the given key.",
+              "default": "ID"
+            },
+            "query": {
+              "type": "string",
+              "description": "Supported filter parameters:\n - `collection_type`\n - `title`\n - `updated_at`\n\nSee the detailed [search syntax](https://shopify.dev/api/usage/search-syntax)\nfor more information about using filters."
+            }
+          }
+        },
+        "shape": "ShopifyStorefront_CollectionConnection"
+      },
+      "ShopifyStorefront_collection": {
+        "resolver": {
+          "name": "graphql:query",
+          "service": "shopify-storefront",
+          "fieldName": "collection"
+        },
+        "args": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "@tag": "id",
+              "description": "The ID of the `Collection`."
+            },
+            "handle": {
+              "type": "string",
+              "description": "The handle of the `Collection`."
+            }
+          }
+        },
+        "shape": "ShopifyStorefront_Collection"
+      }
+    },
+    "mutations": {
+      "ShopifyStorefront_cartCreate": {
+        "resolver": {
+          "name": "graphql:mutation",
+          "service": "shopify-storefront",
+          "fieldName": "cartCreate"
+        },
+        "args": {
+          "type": "object",
+          "properties": {
+            "input": {
+              "@ref": "shopify-storefront:CartInput",
+              "description": "The fields used to create a cart."
+            }
+          }
+        },
+        "shape": "ShopifyStorefront_CartCreatePayload"
+      },
+      "ShopifyStorefront_checkoutCreate": {
+        "resolver": {
+          "name": "graphql:mutation",
+          "service": "shopify-storefront",
+          "fieldName": "checkoutCreate"
+        },
+        "args": {
+          "type": "object",
+          "properties": {
+            "input": {
+              "@ref": "shopify-storefront:CheckoutCreateInput",
+              "description": "The fields used to create a checkout."
+            },
+            "queueToken": {
+              "type": "string",
+              "description": "The checkout queue token. Available only to selected stores."
+            }
+          },
+          "required": ["input"]
+        },
+        "shape": "ShopifyStorefront_CheckoutCreatePayload"
+      },
+      "ShopifyStorefront_customerCreate": {
+        "resolver": {
+          "name": "graphql:mutation",
+          "service": "shopify-storefront",
+          "fieldName": "customerCreate"
+        },
+        "args": {
+          "type": "object",
+          "properties": {
+            "input": {
+              "@ref": "shopify-storefront:CustomerCreateInput",
+              "description": "The fields used to create a new customer."
+            }
+          },
+          "required": ["input"]
+        },
+        "shape": "ShopifyStorefront_CustomerCreatePayload"
+      },
+      "ShopifyStorefront_checkoutCompleteFree": {
+        "resolver": {
+          "name": "graphql:mutation",
+          "service": "shopify-storefront",
+          "fieldName": "checkoutCompleteFree"
+        },
+        "args": {
+          "type": "object",
+          "properties": {
+            "checkoutId": {
+              "type": "string",
+              "@tag": "id",
+              "description": "The ID of the checkout."
+            }
+          },
+          "required": ["checkoutId"]
+        },
+        "shape": "ShopifyStorefront_CheckoutCompleteFreePayload"
+      }
+    },
+    "shapes": {},
+    "workflows": {},
+    "forms": {},
+    "indexedShapes": {
+      "ShopifyStorefront_Product": {
+        "queries": {
+          "list": {"name": "ShopifyStorefront_products", "objectDepthLimit": 1},
+          "get": {"name": "ShopifyStorefront_product", "objectDepthLimit": 1}
+        },
+        "triggers": [{"type": "schedule", "query": "list", "interval": 1440}]
+      },
+      "ShopifyStorefront_Collection": {
+        "queries": {
+          "list": {
+            "name": "ShopifyStorefront_collections",
+            "objectDepthLimit": 1
+          },
+          "get": {"name": "ShopifyStorefront_collection", "objectDepthLimit": 1}
+        },
+        "triggers": [{"type": "schedule", "query": "list", "interval": 1440}]
+      }
+    }
+  }
