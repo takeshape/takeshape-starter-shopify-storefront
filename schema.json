@@ -14,8 +14,7 @@
         "provider": "generic",
         "title": "Shopify Storefront",
         "namespace": "ShopifyStorefront",
-        "serviceType": "graphql",
-        "authenticationType": "bearer"
+        "serviceType": "graphql"
       }
     },
     "queries": {
