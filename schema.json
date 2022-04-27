@@ -1,25 +1,9 @@
 {
-    "projectId": "omitted",
-    "dataKey": "omitted",
-    "version": 11,
-    "created": "",
-    "updated": "",
-    "defaultLocale": "en-us",
-    "locales": ["en-us"],
     "apiVersion": "2",
     "schemaVersion": "3.17.0",
-    "services": {
-      "shopify-storefront": {
-        "id": "shopify-storefront",
-        "provider": "generic",
-        "title": "Shopify Storefront",
-        "namespace": "ShopifyStorefront",
-        "serviceType": "graphql"
-      }
-    },
     "queries": {
       "listIndexedShopifyStorefrontProducts": {
-        "shape": "PaginatedList<ShopifyStorefront_Product>",
+        "shape": "IndexedShopifyStorefront_ProductList",
         "resolver": {
           "shapeName": "ShopifyStorefront_Product",
           "name": "takeshape:queryApiIndex",
@@ -29,12 +13,11 @@
         "description": "Fetch Shopify Storefront products from the API Index."
       },
       "listIndexedShopifyStorefrontCollections": {
-        "shape": "PaginatedList<ShopifyStorefront_Collection>",
+        "shape": "IndexedShopifyStorefront_CollectionList",
         "resolver": {
           "shapeName": "ShopifyStorefront_Collection",
           "name": "takeshape:queryApiIndex",
-          "service": "takeshape:local",
-          "options": {"indexedShape": "ShopifyStorefront_Collection"}
+          "service": "takeshape:local"
         },
         "description": "Fetch Shopify Storefront collections from the API Index."
       },
@@ -247,9 +230,51 @@
         "shape": "ShopifyStorefront_CheckoutCompleteFreePayload"
       }
     },
-    "shapes": {},
+    "shapes": {
+      "IndexedShopifyStorefront_ProductList": {
+        "name": "IndexedShopifyStorefront_ProductList",
+        "id": "IndexedShopifyStorefront_ProductList",
+        "title": "IndexedShopifyStorefront_ProductList",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {"@ref": "shopify-storefront:Product"}
+            }
+          }
+        }
+      },
+      "IndexedShopifyStorefront_CollectionList": {
+        "name": "IndexedShopifyStorefront_CollectionList",
+        "id": "IndexedShopifyStorefront_CollectionList",
+        "title": "IndexedShopifyStorefront_CollectionList",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {"@ref": "shopify-storefront:Collection"}
+            }
+          }
+        }
+      }
+    },
     "workflows": {},
     "forms": {},
+    "services": {
+      "shopify-storefront": {
+        "id": "shopify-storefront",
+        "provider": "generic",
+        "title": "Shopify Storefront",
+        "namespace": "ShopifyStorefront",
+        "serviceType": "graphql",
+        "authenticationType": "bearer",
+        "options": {
+          "endpoint": ""
+        }
+      }
+    },
     "indexedShapes": {
       "ShopifyStorefront_Product": {
         "queries": {
